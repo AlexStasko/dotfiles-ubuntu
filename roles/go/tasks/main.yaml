@@ -1,0 +1,7 @@
+---
+- name: Install language
+  ansible.builtin.package:
+    name:
+      - go
+    state: latest
+  become: yes

@@ -1,0 +1,28 @@
+---
+- name: Download Installer
+  ansible.builtin.unarchive:
+    src: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+    dest: /tmp
+
+- name: Install
+  ansible.buitin.shell:
+    cmd: /tmp/aws/install
+  become: true
+
+- name: Create folder
+  file:
+    path: "~/.aws"
+    state: directory
+
+- name: Setup Creds
+  copy:
+    dest: "~/.aws/credentials"
+    content: "{{ aws_credentials }}"
+  no_log: true
+
+- name: Setup Config
+  copy:
+    dest: "~/.aws/config"
+    content: |
+      [default]
+      region = eu-west-1

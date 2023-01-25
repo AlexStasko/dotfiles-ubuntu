@@ -1,0 +1,8 @@
+---
+- name: Install
+  community.general.snap:
+    name:
+      - postman
+    channel: v9/stable
+    classic: yes
+  become: yes

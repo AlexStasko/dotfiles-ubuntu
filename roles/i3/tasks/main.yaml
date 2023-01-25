@@ -1,0 +1,20 @@
+---
+- name: Install keyring for i3 repo
+  ansible.builtin.apt:
+    deb: https://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2022.02.17_all.deb
+
+- name: Add repo
+  ansible.builtin.apt_repository:
+    repo: "deb http://debian.sur5r.net/i3/ {{ ansible_distribution_release }} universe"
+    state: present
+
+- name: Install
+  ansible.builtin.apt:
+    name:
+      - i3
+      - i3-status
+
+- name: Configuration
+  ansible.builtin.template:
+    dest: "{{ ansible_user_dir }}/.i3/config"
+    src: "config.j2"

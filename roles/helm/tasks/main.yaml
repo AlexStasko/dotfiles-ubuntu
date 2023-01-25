@@ -1,0 +1,18 @@
+---
+- name: Add key
+  ansible.builtin.apt_key:
+    url: https://baltocdn.com/helm/signing.asc
+    keyring: /usr/share/keyrings/helm.gpg
+    state: present
+  become: true
+
+- name: Add repo
+  apt_repository:
+    repo: deb [arch=amd64 signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main
+    state: present
+  become: true
+
+- name: Install
+  ansible.builtin.apt:
+    name:
+      - helm

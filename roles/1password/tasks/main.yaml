@@ -1,0 +1,6 @@
+---
+- name: Install
+  community.general.snap:
+    name: 1password
+    classic: yes
+  become: true

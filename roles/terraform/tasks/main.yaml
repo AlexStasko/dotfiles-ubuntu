@@ -1,0 +1,10 @@
+---
+- name: Download Installer
+  ansible.builtin.get_url:
+    dest: /tmp/tfswitch-installer.sh
+    mode: 0755
+    url: https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh
+
+- name: Install
+  ansible.builtin.shell:
+    cmd: /tmp/tfswitch-installer.sh
