@@ -1,7 +1,5 @@
 ---
 - name: Install
-  ansible.builtin.package:
-    name:
-      - httpie
-    state: latest
+  community.general.snap:
+    name: httpie
   become: yes

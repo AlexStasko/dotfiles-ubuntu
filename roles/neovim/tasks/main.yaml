@@ -2,14 +2,30 @@
 - name: Dependencies
   ansible.builtin.package:
     name:
-      - base-devel
-      - cmake
+      - build-essential
       - curl
-      - ninja
-      - tree-sitter
+      - ninja-build
+      - gettext
       - unzip
+      - gzip
+      - cmake
     state: latest
   become: yes
+
+- name: Copy Installer
+  ansible.builtin.template:
+    dest: "{{ ansible_user_dir }}/tree-sitter-installer.sh"
+    src: "tree-sitter-installer.sh.j2"
+    mode: "0755"
+
+- name: Install Tree-sitter
+  ansible.builtin.shell:
+    cmd: "{{ ansible_user_dir }}/tree-sitter-installer.sh"
+
+- name: Cleanup
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/tree-sitter-installer.sh"
+    state: absent
 
 - name: Clone
   ansible.builtin.git:
@@ -18,7 +34,6 @@
     dest: "{{ ansible_user_dir }}/Development/repository/github.com/neovim/neovim"
     force: yes
     repo: https://github.com/neovim/neovim.git
-    single_branch: yes
     update: yes
     version: "{{ neovim_version | default('master') }}"
   register: clone

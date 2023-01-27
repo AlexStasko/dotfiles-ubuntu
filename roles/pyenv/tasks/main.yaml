@@ -1,0 +1,33 @@
+---
+- name: Check Installation
+  stat:
+    path: "{{ ansible_user_dir }}/.pyenv"
+  register: install
+
+- name: Download Installer
+  ansible.builtin.get_url:
+    dest: "{{ ansible_user_dir }}/pyenv_installer.run"
+    url: https://pyenv.run
+    mode: "0755"
+  when: not install.stat.exists
+
+- name: Install
+  ansible.builtin.shell:
+    cmd: "{{ ansible_user_dir }}/pyenv_installer.run"
+  when: not install.stat.exists
+
+- name: Cleanup
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/pyenv_installer.run"
+    state: absent
+  when: not install.stat.exists
+
+- name: Clone pyenv-virtualenv
+  ansible.builtin.git:
+    clone: yes
+    depth: 1
+    dest: "{{ ansible_user_dir }}/.pyenv/plugins/pyenv-virtualenv"
+    repo: https://github.com/pyenv/pyenv-virtualenv.git
+    update: yes
+    version: master
+

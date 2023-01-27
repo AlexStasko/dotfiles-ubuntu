@@ -4,31 +4,42 @@
     name:
       - git-filter-repo
       - jq
-      - jre-openjdk
-      - dog
       - open-iscsi
-      - nfs-utils
-      - rpm-tools
-      - jwt-cli
     state: latest
   become: yes
 
-- name: Set sudo
-  ansible.builtin.replace:
-    path: "/etc/sudoers.d/10-installer"
-    regexp: '\%wheel ALL=\(ALL\) ALL'
-    replace: "%wheel ALL=(ALL) NOPASSWD: ALL"
-  become: yes
-
-- name: Set hosts
-  ansible.builtin.template:
-    dest: "/etc/hosts"
-    src: hosts.j2
-  become: yes
-
-- name: Set snap classic
+- name: Create bin dir
   ansible.builtin.file:
-    dest: "/snap"
-    src: "/var/lib/snapd/snap"
-    state: link
-  become: yes
+    path: "{{ ansible_user_dir }}/.local/bin"
+    state: directory
+
+- name: Create fonts dir
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.fonts"
+    state: directory
+
+- name: Unarchive
+  ansible.builtin.unarchive:
+    dest: "{{ ansible_user_dir }}/.fonts"
+    src: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/Meslo.zip
+    remote_src: true
+
+#- name: Set sudo
+#  ansible.builtin.replace:
+#    path: "/etc/sudoers"
+#    regexp: '\%sudo ALL=\(ALL:ALL\) ALL'
+#    replace: "%sudo ALL=(ALL:ALL) NOPASSWD: ALL"
+#  become: yes
+
+#- name: Set hosts
+#  ansible.builtin.template:
+#    dest: "/etc/hosts"
+#    src: hosts.j2
+#  become: yes
+
+#- name: Set snap classic
+#  ansible.builtin.file:
+#    dest: "/snap"
+#    src: "/var/lib/snapd/snap"
+#    state: link
+#  become: yes

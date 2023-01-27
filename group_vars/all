@@ -8,12 +8,14 @@ default_roles:
   - docker
   - doppler-cli
   - dotnet
+  - dunst
   - firefox
   - git
   - github-cli
-  - go
   - helm
   - httpie
+  - picom
+  - polybar
   - i3
   - jetbrains
   - k9s
@@ -27,8 +29,10 @@ default_roles:
   - nodejs
   - nvm
   - oh-my-tmux
+  - zsh
   - oh-my-zsh
   - postman
+  - pyenv
   - ripgrep
   - rust
   - slack
@@ -38,7 +42,11 @@ default_roles:
   - terraform
   - tmux
   - visual-studio-code
-  - zsh
   - 1password
   - teams
   - skype
+
+deb_architecture: {
+  "aarch64": "arm64",
+  "x86_64": "amd64"
+}

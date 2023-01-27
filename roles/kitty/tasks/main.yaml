@@ -1,10 +1,19 @@
 ---
+- name: Download Installer
+  ansible.builtin.get_url:
+    dest: "{{ ansible_user_dir }}/kitty_installer.sh"
+    mode: "0755"
+    url: https://sw.kovidgoyal.net/kitty/installer.sh
+
 - name: Install
-  ansible.builtin.package:
-    name:
-      - kitty
-    state: latest
-  become: yes
+  ansible.builtin.shell:
+    cmd: "{{ ansible_user_dir }}/kitty_installer.sh launch=n"
+
+- name: Create link
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.local/bin/kitty"
+    src: "{{ ansible_user_dir }}/.local/kitty.app/bin/kitty"
+    state: link
 
 - name: Config folder
   ansible.builtin.file:

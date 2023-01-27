@@ -1,0 +1,10 @@
+---
+- name: Create config folder
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.config/dunst"
+    state: directory
+
+- name: Download theme
+  ansible.builtin.get_url:
+    dest: "{{ ansible_user_dir }}/.config/dunst/dunstrc"
+    url: https://github.com/catppuccin/dunst/raw/main/src/macchiato.conf

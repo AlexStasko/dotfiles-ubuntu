@@ -1,7 +1,5 @@
 ---
 - name: Install
-  ansible.builtin.package:
-    name:
-      - discord
-    state: latest
+  ansible.builtin.apt:
+    deb: https://discord.com/api/download?platform=linux&format=deb
   become: yes

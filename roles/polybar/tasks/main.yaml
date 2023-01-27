@@ -1,0 +1,81 @@
+---
+- name: Dependencies
+  ansible.builtin.apt:
+    name:
+      - build-essential
+      - cmake
+      - cmake-data
+      - pkg-config
+      - python3-sphinx
+      - python3-packaging 
+      - libuv1-dev 
+      - libcairo2-dev 
+      - libxcb1-dev
+      - libxcb-util0-dev
+      - libxcb-randr0-dev
+      - libxcb-composite0-dev
+      - python3-xcbgen
+      - xcb-proto
+      - libxcb-image0-dev
+      - libxcb-ewmh-dev
+      - libxcb-icccm4-dev
+      - libjsoncpp-dev
+    state: latest
+  become: true
+
+- name: Clone
+  ansible.builtin.git:
+    clone: yes
+    depth: 1
+    dest: "{{ ansible_user_dir }}/Development/repository/github.com/polybar/polybar"
+    force: yes
+    repo: https://github.com/polybar/polybar.git
+    update: yes
+    version: "{{ polybar_version | default('master') }}"
+  register: clone
+
+- name: build dir
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/Development/repository/github.com/polybar/polybar/build"
+    state: directory
+  when: clone.changed
+
+- name: cmake
+  ansible.builtin.shell:
+    chdir: "{{ ansible_user_dir }}/Development/repository/github.com/polybar/polybar/build"
+    cmd: cmake ..
+  when: clone.changed
+
+- name: Build
+  make:
+    chdir: "{{ ansible_user_dir }}/Development/repository/github.com/polybar/polybar/build"
+  when: clone.changed
+
+- name: Install
+  make:
+    chdir: "{{ ansible_user_dir }}/Development/repository/github.com/polybar/polybar/build"
+    target: install
+  become: true
+  when: clone.changed
+
+- name: Remove build folder
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/Development/repository/github.com/polybar/polybar/build"
+    state: absent
+  become: true
+
+- name: Create config dir
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.config/polybar"
+    state: directory
+
+- name: Setup launch script
+  ansible.builtin.template:
+    dest: "{{ ansible_user_dir }}/.config/polybar/launch.sh"
+    src: "launch.sh.j2"
+    mode: "0755"
+
+- name: Config
+  ansible.builtin.template:
+    dest: "{{ ansible_user_dir }}/.config/polybar/config.ini"
+    src: "config.ini.j2"

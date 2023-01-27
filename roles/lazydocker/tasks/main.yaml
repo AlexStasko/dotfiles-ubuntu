@@ -2,17 +2,13 @@
 - name: Download Installer
   ansible.builtin.get_url:
     url: https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh
-    dest: /tmp/lazydocker-installer.sh
-    state: present
+    dest: "{{ ansible_user_dir }}/lazydocker-installer.sh"
 
 - name: Set executable
   ansible.builtin.file:
-    path: /tmp/lazydocker-installer.sh
+    path: "{{ ansible_user_dir }}/lazydocker-installer.sh"
     mode: +x
 
 - name: Install
   ansible.builtin.shell:
-    cmd: /tmp/lazydocker-installer.sh
-    state: latest
-    name:
-      - lazydocker
+    cmd: "{{ ansible_user_dir }}/lazydocker-installer.sh"

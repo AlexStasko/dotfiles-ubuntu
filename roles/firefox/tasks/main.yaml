@@ -1,7 +1,6 @@
 ---
 - name: Install
-  ansible.builtin.package:
-    name:
-      - firefox
-    state: latest
+  community.general.snap:
+    name: firefox
+    classic: true
   become: yes

@@ -5,7 +5,6 @@
     depth: 1
     dest: "{{ ansible_user_dir }}/.tmux"
     repo: https://github.com/gpakosz/.tmux.git
-    single_branch: yes
     update: yes
     version: master
   register: clone

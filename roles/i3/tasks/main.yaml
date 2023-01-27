@@ -2,17 +2,30 @@
 - name: Install keyring for i3 repo
   ansible.builtin.apt:
     deb: https://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2022.02.17_all.deb
+  become: true
 
 - name: Add repo
   ansible.builtin.apt_repository:
     repo: "deb http://debian.sur5r.net/i3/ {{ ansible_distribution_release }} universe"
     state: present
+    update_cache: true
+  become: true
 
 - name: Install
   ansible.builtin.apt:
     name:
       - i3
-      - i3-status
+  become: true
+
+- name: Create Dir
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.i3"
+    state: directory
+
+- name: Theme
+  ansible.builtin.get_url:
+    dest: "{{ ansible_user_dir }}/.i3"
+    url: https://github.com/catppuccin/i3/raw/main/themes/catppuccin-macchiato
 
 - name: Configuration
   ansible.builtin.template:

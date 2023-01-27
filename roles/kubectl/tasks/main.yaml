@@ -1,6 +1,18 @@
 ---
+- name: Add keyring
+  ansible.builtin.apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    keyring: /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+  become: true
+
+- name: Add repo
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main"
+    update_cache: true
+  become: true
+
 - name: Install
-  ansible.builtin.package:
+  ansible.builtin.apt:
     name:
       - kubectl
     state: latest

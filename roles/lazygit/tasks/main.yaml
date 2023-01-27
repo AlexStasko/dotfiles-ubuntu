@@ -1,4 +1,11 @@
 ---
+- name: Copy Intaller
+  ansible.builtin.template:
+    dest: "{{ ansible_user_dir }}/lazygit_installer.sh"
+    src: "installer.sh.j2"
+    mode: "0755"
+
 - name: Install
   ansible.builtin.shell:
-    cmd: ./../scripts/installer.sh
+    cmd: "{{ ansible_user_dir }}/lazygit_installer.sh"
+  become: true

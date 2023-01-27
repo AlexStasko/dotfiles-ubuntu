@@ -8,11 +8,13 @@
 
 - name: Add repo
   apt_repository:
-    repo: deb [arch=amd64 signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main
+    repo: "deb [arch={{ deb_architecture[ansible_architecture] }} signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main"
     state: present
+    update_cache: true
   become: true
 
 - name: Install
   ansible.builtin.apt:
     name:
       - helm
+  become: true

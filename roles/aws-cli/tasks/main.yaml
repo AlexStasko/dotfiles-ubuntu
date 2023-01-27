@@ -1,13 +1,19 @@
 ---
-- name: Download Installer
-  ansible.builtin.unarchive:
-    src: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
-    dest: /tmp
+#- name: Download Installer
+#  ansible.builtin.unarchive:
+#    src: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+#    dest: "{{ ansible_user_dir }}"
+#    remote_src: true
 
-- name: Install
-  ansible.buitin.shell:
-    cmd: /tmp/aws/install
-  become: true
+#- name: Install
+#  ansible.builtin.shell:
+#    cmd: /tmp/aws/install
+#  become: true
+
+#- name: Cleanup
+#  ansible.builtin.file:
+#    path: "{{ ansible_user_dir }}/aws"
+#    state: absent
 
 - name: Create folder
   file:

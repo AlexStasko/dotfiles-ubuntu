@@ -1,6 +1,5 @@
 ---
 - name: Install
-  community.general.snap:
-    name: 1password
-    classic: yes
+  ansible.builtin.apt:
+    deb: https://downloads.1password.com/linux/debian/amd64/stable/1password-latest.deb
   become: true
