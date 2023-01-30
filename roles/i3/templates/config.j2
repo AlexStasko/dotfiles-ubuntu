@@ -33,13 +33,8 @@ bindsym $mod+Return exec kitty
 bindsym $mod+Shift+q kill
 
 # start program launcher
-bindsym $mod+d exec --no-startup-id dmenu_run
+bindsym $mod+d exec --no-startup-id rofi -show drun
 
-# launch categorized menu
-bindsym $mod+z exec --no-startup-id morc_menu
-
-# launch vmware-user
-# exec --no-startup-id vmware-user
 
 ################################################################################################
 ## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later! ##
@@ -58,12 +53,8 @@ bindsym $mod+Ctrl+m exec kitty -e 'alsamixer'
 # bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; notify-send 'brightness down'"
 
 # Start Applications
-bindsym $mod+Ctrl+b exec kitty -e 'bmenu'
 bindsym $mod+F2 exec firefox
 bindsym $mod+F3 exec nautilus
-# bindsym $mod+F3 exec ranger
-# bindsym $mod+Shift+F3 exec pcmanfm_pkexec
-# bindsym $mod+F5 exec kitty -e 'mocp'
 bindsym $mod+Ctrl+t exec --no-startup-id pkill picom
 bindsym $mod+t exec --no-startup-id picom -b
 bindsym $mod+Shift+d --release exec "killall dunst; exec notify-send 'restart dunst'"

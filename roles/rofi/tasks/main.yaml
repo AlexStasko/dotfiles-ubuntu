@@ -1,0 +1,84 @@
+---
+- name: Dependencies
+  ansible.builtin.apt:
+    name:
+      - make
+      - autoconf
+      - automake
+      - pkg-config
+      - flex
+      - bison
+      - check
+      - libxkbcommon-dev
+      - libxkbcommon-x11-dev
+      - libxcb-xkb-dev
+      - libxcb-cursor-dev
+      - libxcb-xinerama0-dev
+      - libpango1.0-dev
+      - libstartup-notification0-dev
+      - libgdk-pixbuf-2.0-dev
+  become: yes
+
+- name: Clone
+  ansible.builtin.git:
+    clone: yes
+    depth: 1
+    dest: "{{ ansible_user_dir }}/Development/repository/github.com/davatorium/rofi"
+    force: yes
+    recursive: true
+    repo: https://github.com/DaveDavenport/rofi
+    update: yes
+    version: 1.7.5
+  register: clone
+
+- name: Autoconfig
+  ansible.builtin.shell:
+    chdir: "{{ ansible_user_dir }}/Development/repository/github.com/davatorium/rofi"
+    cmd: autoreconf -i
+  when: clone.changed
+
+- name: Create Build dir
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/Development/repository/github.com/davatorium/rofi/build"
+    state: directory
+  when: clone.changed
+
+- name: Config
+  ansible.builtin.shell:
+    chdir: "{{ ansible_user_dir }}/Development/repository/github.com/davatorium/rofi/build"
+    cmd: ../configure
+  when: clone.changed
+
+- name: Build
+  make:
+    chdir: "{{ ansible_user_dir }}/Development/repository/github.com/davatorium/rofi/build"
+  when: clone.changed
+
+- name: Install
+  make:
+    chdir: "{{ ansible_user_dir }}/Development/repository/github.com/davatorium/rofi/build"
+    target: install
+  become: yes
+  when: clone.changed
+
+- name: Cleanup
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/Development/repository/github.com/davatorium/rofi/build"
+    state: absent
+  become: yes
+  when: clone.changed
+
+- name: Create config directory
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.config/rofi"
+    state: directory
+
+- name: Create config
+  ansible.builtin.template:
+    dest: "{{ ansible_user_dir }}/.config/rofi/config.rasi"
+    src: "config.rasi.j2"
+
+- name: Create theme
+  ansible.builtin.template:
+    dest: "{{ ansible_user_dir }}/.config/rofi/catppuccin.rasi"
+    src: "catppuccin.rasi.j2"
