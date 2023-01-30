@@ -18,12 +18,28 @@
     path: "{{ ansible_user_dir }}/.fonts"
     state: directory
 
-- name: Unarchive
+- name: Unarchive Meslo
   ansible.builtin.unarchive:
     dest: "{{ ansible_user_dir }}/.fonts"
     src: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/Meslo.zip
     remote_src: true
 
+- name: Unarchive Awesome
+  ansible.builtin.unarchive:
+    dest: "{{ ansible_user_dir }}/.fonts"
+    src: https://use.fontawesome.com/releases/v6.2.1/fontawesome-free-6.2.1-desktop.zip
+    remote_src: true
+
+- name: Move Awesome
+  ansible.builtin.copy:
+    dest: "{{ ansible_user_dir }}/.fonts"
+    src: "{{ ansible_user_dir }}/.fonts/fontawesome-free-6.2.1-desktop/otfs/"
+
+- name: Cleanup
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.fonts/fontawesome-free-6.2.1-desktop"
+    state: absent
+    
 #- name: Set sudo
 #  ansible.builtin.replace:
 #    path: "/etc/sudoers"
