@@ -64,6 +64,6 @@
   ansible.builtin.git:
     clone: yes
     depth: 1
-    dest: "{{ ansible_user_dir }}/.oh-my-zsh/custom/theme/zsh-syntax-highlighting"
+    dest: "{{ ansible_user_dir }}/.oh-my-zsh/custom/themes/zsh-syntax-highlighting"
     repo: https://github.com/catppuccin/zsh-syntax-highlighting
     update: yes

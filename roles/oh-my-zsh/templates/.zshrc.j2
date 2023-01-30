@@ -7,7 +7,7 @@ export PYENV_SHIMS="$PYENV_ROOT/shims"
 export DOTFILES_PATH="$HOME/.dotfiles/bin"
 
 # PATH
-export PATH="$PYENV_SHIMS:$PYENV_PATH:$DOTFILES_PATH:/usr/local/sbin:$HOST/.local/bin:$PATH"
+export PATH="$PYENV_SHIMS:$PYENV_PATH:$DOTFILES_PATH:/usr/local/sbin:$HOST/.local/bin:$HOME/bin:$PATH"
 
 # PYENV
 eval "$(pyenv init -)"
@@ -17,7 +17,7 @@ eval "$(pyenv virtualenv-init -)"
 export ZSH="$HOME/.oh-my-zsh"
 
 # Theme for zsh-syntax-highlighting
-source $ZSH/custom/themes/zsh-syntax-highlighting/catppuccin_macchiato-zsh-syntax-highlighting.zsh
+source $ZSH/custom/themes/zsh-syntax-highlighting/themes/catppuccin_macchiato-zsh-syntax-highlighting.zsh
 
 ZSH_THEME="robbyrussell"
 
