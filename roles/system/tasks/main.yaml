@@ -5,6 +5,7 @@
       - git-filter-repo
       - jq
       - open-iscsi
+      - xclip
     state: latest
   become: yes
 
