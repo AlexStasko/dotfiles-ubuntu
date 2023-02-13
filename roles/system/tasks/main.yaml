@@ -6,6 +6,8 @@
       - jq
       - open-iscsi
       - xclip
+      - openssl
+      - libssl-dev
     state: latest
   become: yes
 
