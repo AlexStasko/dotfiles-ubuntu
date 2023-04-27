@@ -309,4 +309,3 @@ This will handle the following tasks:
 ### Neovim Updates
 
 Sometimes the cloning task in `neovim` role fails due to conflicts with the repository history. The easiest solution is to delete the repository at `~/Development/repository/github.com/neovim/neovim` and let the playbook clone it again.
-
