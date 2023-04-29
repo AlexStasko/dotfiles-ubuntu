@@ -31,3 +31,10 @@
   ansible.builtin.template:
     dest: "{{ ansible_user_dir }}/.i3/config"
     src: "config.j2"
+
+- name: i3exit
+  ansible.builtin.template:
+    dest: "/usr/bin/i3exit"
+    src: "i3exit.j2"
+    mode: 775
+  become: true
