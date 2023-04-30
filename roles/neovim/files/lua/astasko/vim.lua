@@ -1,43 +1,27 @@
-local function set_augroup()
-  vim.api.nvim_command("augroup WrapInMarkdown")
-  vim.api.nvim_command("autocmd!")
-  vim.api.nvim_command("autocmd FileType markdown setlocal wrap")
-  vim.api.nvim_command("augroup END")
-end
-
 local function set_vim_g()
   vim.g.mapleader = " "
 end
 
 local function set_vim_o()
   local settings = {
-    backup = false,
-    errorbells = false,
+    clipboard = 'unnamedplus',
+    colorcolumn = 80,
     expandtab = true,
-    hidden = true,
     scrolloff = 3,
+    shiftwidth = 2,
+    shortmess = vim.o.shortmess .. 'c',
+    splitright = true,
     softtabstop = 2,
     showmode = false,
-    termguicolors = true
+    tabstop = 2,
+    termguicolors = true,
+    updatetime = 300
   }
 
   -- Generic vim.o
   for k, v in pairs(settings) do
     vim.o[k] = v
   end
-
-  -- Custom vim.o
-  vim.o.clipboard = 'unnamedplus'
-  vim.o.shortmess = vim.o.shortmess .. 'c'
-
-  -- Not yet in vim.o
-  vim.cmd('set encoding=utf8')
-  vim.cmd('set nowritebackup')
-  vim.cmd('set shiftwidth=2')
-  vim.cmd('set secure')
-  vim.cmd('set splitright')
-  vim.cmd('set tabstop=2')
-  vim.cmd('set updatetime=300')
 end
 
 local function set_vim_wo()
@@ -59,7 +43,6 @@ end
 
 
 local function init()
-  set_augroup()
   set_vim_g()
   set_vim_o()
   set_vim_wo()

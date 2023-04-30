@@ -22,35 +22,43 @@ local function packer_startup()
 
   -- Packer
   use 'wbthomason/packer.nvim'
+  
 
   -- Language Servers
-  use {
-    'lspcontainers/lspcontainers.nvim',
-    requires = {
-      'neovim/nvim-lspconfig',
-      'nvim-lua/lsp_extensions.nvim',
-    },
-    config = function ()
-      require'lspcontainers'.setup({
-        ensure_installed = {
-          "bashls",
-          "dockerls",
-          "gopls",
-          "html",
-          "pylsp",
-          "rust_analyzer",
-          "sumneko_lua",
-          "terraformls",
-          "tsserver",
-          "yamlls"
-        }
-      })
-
-      require'astasko.plugins.lspconfig'.init()
-    end
-  }
   use 'pantharshit00/vim-prisma'
   use 'hashivim/vim-terraform'
+  use 'simrat39/rust-tools.nvim'
+  use {
+    'VonHeikemen/lsp-zero.nvim',
+    branch = 'v2.x',
+    requires = {
+      'neovim/nvim-lspconfig',
+      {                                      -- Optional
+        'williamboman/mason.nvim',
+        run = function()
+          pcall(vim.cmd, 'MasonUpdate')
+        end,
+      },
+      {'williamboman/mason-lspconfig.nvim'},
+      -- Completion
+      'hrsh7th/nvim-cmp',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-cmdline',
+      'ray-x/cmp-treesitter',
+      'hrsh7th/cmp-vsnip',
+      'hrsh7th/vim-vsnip',
+      'onsails/lspkind-nvim',
+      'saadparwaiz1/cmp_luasnip',
+      'rafamadriz/friendly-snippets',
+      'hrsh7th/cmp-nvim-lsp',
+      'L3MON4D3/LuaSnip'
+    },
+    config = function()
+      require'astasko.plugins.languages'.init()
+    end
+  }
 
   -- Treesitter
   use {
@@ -61,30 +69,10 @@ local function packer_startup()
     end,
   }
 
-  -- Completion
-  use {
-    'hrsh7th/nvim-cmp',
-    requires = {
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-cmdline',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-vsnip',
-      'hrsh7th/vim-vsnip',
-      'ray-x/cmp-treesitter',
-      {
-        'tzachar/cmp-tabnine',
-        run = "./install.sh",
-      },
-      'onsails/lspkind-nvim'
-    },
-    config = function ()
-      require'astasko.plugins.completion'.init()
-    end
-  }
 
   -- Telescope
   use 'nvim-lua/popup.nvim'
+  use 'nvim-lua/plenary.nvim'
   use {
     'nvim-telescope/telescope.nvim',
     config = function ()
@@ -102,16 +90,10 @@ local function packer_startup()
   }
 
   -- Git Support
-  -- TODO: evaluate how often I am using this (10/19/21)
-  use 'rhysd/git-messenger.vim'
-
   use {
     'lewis6991/gitsigns.nvim',
-    requires = {
-      'nvim-lua/plenary.nvim'
-    },
     config = function ()
-      require'astasko.plugins.gitsigns'.init()
+      require('gitsigns').setup()
     end
   }
 
@@ -146,59 +128,12 @@ local function packer_startup()
   }
 
   use {
-    'folke/lsp-colors.nvim',
-    config = function()
-      require("lsp-colors").setup()
-    end
-  }
-
-  use {
-    'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
-    config = function()
-      require'astasko.plugins.lsplines'.init()
-    end,
-  }
-
-  use {
     'voldikss/vim-floaterm',
     config = function ()
       require'astasko.plugins.floaterm'.init()
     end
   }
 
--- use {
---    'takac/vim-hardtime', -- see http://vimcasts.org/blog/2013/02/habit-breaking-habit-making
---    config = function ()
---      require'astasko.plugins.hardtime'.init()
---    end
---  }
-
-  -- VimWiki + Zettelkasten
-  use {
-    'michal-h21/vim-zettel',
-    requires = {
-      {
-        'junegunn/fzf',
-        run = function () vim.fn['fzf#install']() end
-      },
-      'junegunn/fzf.vim',
-      'vimwiki/vimwiki'
-    },
-    config = function ()
-      require'astasko.plugins.zettel'.init()
-    end
-  }
-
-  use {
-    'weilbith/nvim-code-action-menu',
-    requires = {
-      'kosayoda/nvim-lightbulb'
-    },
-    cmd = 'CodeActionMenu',
-    config = function ()
-      require'astasko.plugins.code_action_menu'.init()
-    end
-  }
 end
 
 local function init()
