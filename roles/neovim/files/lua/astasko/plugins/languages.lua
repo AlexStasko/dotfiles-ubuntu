@@ -55,6 +55,8 @@ local function on_attach(client, bufnr)
 end
 
 local function init()
+    vim.api.nvim_set_keymap('n', '<leader>mm', '<CMD>Mason<CR>', { noremap = true })
+
     local cmp_select = { behavior = cmp.SelectBehavior.Select }
     local cmp_mappings = lsp.defaults.cmp_mappings({
             ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
